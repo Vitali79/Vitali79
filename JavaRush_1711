@@ -11,7 +11,6 @@ public class Solution {
 
     public static void main(String[] args) throws ParseException {
 
-        //start here - начни тут
         switch (args[0]) {
             case "-c":
                 synchronized (allPeople) {
