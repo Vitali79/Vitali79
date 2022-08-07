@@ -1,0 +1,65 @@
+public class Solution {
+    public static volatile List<Person> allPeople = new ArrayList<Person>();
+
+    static SimpleDateFormat formatIn = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+    static SimpleDateFormat formatOut = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+
+    static {
+        allPeople.add(Person.createMale("Иванов Иван", new Date()));  //сегодня родился    id=0
+        allPeople.add(Person.createMale("Петров Петр", new Date()));  //сегодня родился    id=1
+    }
+
+    public static void main(String[] args) throws ParseException {
+
+        //start here - начни тут
+        switch (args[0]) {
+            case "-c":
+                synchronized (allPeople) {
+                    for (int i = 1; i < args.length; i += 3) {
+                        allPeople.add(args[i+1].equals("м") ? Person.createMale(args[i], formatIn.parse(args[i+2]))
+                                : Person.createFemale(args[i], formatIn.parse(args[i+2])));
+                        System.out.println(allPeople.size()-1);
+                    }
+
+                }
+                break;
+            case "-u":
+                synchronized (allPeople) {
+                    Person updatePerson;
+                    for (int i = 1; i < args.length; i += 4) {
+                        updatePerson = allPeople.get(Integer.parseInt(args[i]));
+                        updatePerson.setName(args[i+1]);
+                        updatePerson.setSex(args[i+2].equals("м") ? Sex.MALE : Sex.FEMALE);
+                        updatePerson.setBirthDate(formatIn.parse(args[i+3]));
+                        allPeople.set(Integer.parseInt(args[i]), updatePerson);
+                    }
+                }
+                break;
+            case "-d":
+                synchronized (allPeople) {
+                    Person deletePerson;
+                    for (int i = 1; i < args.length; i++) {
+                        deletePerson = allPeople.get(Integer.parseInt(args[i]));
+                        deletePerson.setName(null);
+                        deletePerson.setSex(null);
+                        deletePerson.setBirthDate(null);
+                        allPeople.set(Integer.parseInt(args[i]), deletePerson);
+                    }
+                }
+                break;
+            case "-i":
+                synchronized (allPeople) {
+                    for (int i = 1; i < args.length; i++) {
+                        int id = Integer.parseInt(args[i]);
+                        String name = allPeople.get(id).getName();
+                        String sex = allPeople.get(id).getSex().equals(Sex.MALE) ? " м " : " ж ";
+                        String bd = formatOut.format(allPeople.get(id).getBirthDate());
+
+                        System.out.println(name + sex + bd);
+                    }
+                }
+                break;
+        }
+    }
+
+}
