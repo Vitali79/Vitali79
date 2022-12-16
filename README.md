@@ -5,6 +5,6 @@
 - 📫 How to reach me: vitali.sin777@gmail.com
 
 <!---
-Vitali79/Vitali79 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+VitaliSinitski/VitaliSinitski is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
 --->
